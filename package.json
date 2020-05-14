@@ -1,0 +1,55 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "This is the backend for Shefa Luxe fashion House.",
+  "main": "index.js",
+  "scripts": {
+    "test": "cross-env DB_ENV=test jest --detectOpenHandles --testTimeout=60000 --coverage --runInBand --forceExit",
+    "start": "node index.js",
+    "server": "nodemon index.js",
+    "pretest": "knex migrate:rollback --env=test && knex migrate:latest --env=test",
+    "migrate": "knex migrate:latest",
+    "seed": "knex seed:run",
+    "unmigrate": "knex migrate:rollback--all",
+    "coverage": "npm test && cat ./coverage/icon.info | coveralls"
+  },
+  "keywords": [],
+  "author": "dueka",
+  "license": "ISC",
+  "dependencies": {
+    "@sendgrid/mail": "^7.1.0",
+    "cloudinary": "^1.21.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^3.22.0",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.21.1",
+    "mailgen": "^2.0.13",
+    "moment": "^2.25.3",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "multer-storage-cloudinary": "^2.2.1",
+    "nodemailer": "^6.4.6",
+    "nodemon": "^2.0.4",
+    "passport": "^0.4.1",
+    "pg": "^8.2.0",
+    "pg-types": "^3.0.0",
+    "validator": "^13.0.0",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "coveralls": "3.1.0",
+    "cross-env": "^7.0.2",
+    "jest": "^26.0.1",
+    "supertest": "^4.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dueka/Shefa-luxe0-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dueka/Shefa-luxe0-server/issues"
+  },
+  "homepage": "https://github.com/dueka/Shefa-luxe0-server#readme"
+}
