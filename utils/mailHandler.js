@@ -86,7 +86,8 @@ module.exports = class Mailer {
    * Send password reset token to users email
    * @param {string} token
    * @param {string} email
-   */ x;
+   */
+
   static async forgotPassword(res, statusCode, info, user) {
     const token = usersToken(user);
     server.locals = token;

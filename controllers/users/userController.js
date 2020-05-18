@@ -41,3 +41,42 @@ async function handleGetSingleUser(req, res) {
     return requestHandler.eror(res, 500, `server error ${error.message}`);
   }
 }
+
+const updateUserProfile = async (req, res) => {
+  try {
+    const { userId } = req.decodedToken;
+    const foundUser = await userModel.getSingleUser({ id: userId });
+
+    if (foundUser) {
+      if (req.file) {
+        const currentImage = await JSON.parse(foundUser.image_url);
+        req.body.image_url = [
+          { avatar: req.file.secure_url, public_id: req.file.public_id },
+        ];
+        cloudinary.deleteCloudImage(currentImage);
+      } else {
+        req.body.image_url = "";
+      }
+      const updates = {
+        email: req.body.email || foundUser.email,
+        username: req.body.username || foundUser.username,
+        fullname: req.body.fullname || foundUser.fullname,
+        bio: req.body.bio || foundUser.bio,
+        image_url: req.body.image_url || foundUser.image_url,
+      };
+      const userUpdates = await userModel.updateUser(updates, userId);
+      return requestHandler.success(res, 200, "Profile updated successfully", {
+        userUpdates,
+      });
+    }
+    return requestHandler.error(res, 400, `You are not authorized to do this`);
+  } catch (error) {
+    return requestHandler.error(res, 500, `server error ${error.message}`);
+  }
+};
+
+module.exports = {
+  handleGetUserList,
+  handleGetSingleUser,
+  updateUserProfile,
+};

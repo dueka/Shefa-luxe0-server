@@ -5,7 +5,7 @@ const mailGenerator = new MailGen({
   theme: "salted",
   product: {
     name: process.env.APP_NAME,
-    link: process.en.MAIL_LINK,
+    link: process.env.MAIL_LINK,
     logo: process.env.MAIL_LOGO,
   },
 });

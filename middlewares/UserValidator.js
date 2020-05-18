@@ -4,23 +4,24 @@ const checkItem = require("../utils/checkInputs");
 const requestHandler = require("../utils/requestHandler");
 const userModel = require("../models/userModel");
 require("dotenv").config();
-
 const server = require("../api/server");
 
 /**
- * validates all routes
- *@class userValidator
+ * Validates all routes
+ * @class UserValidator
  */
-module.exports = class userValidator {
+module.exports = class UserValidator {
   /**
    * Validates all user details
    * @param {obj} req
    * @param {obj} res
    * @param {obj} next
-   * @returns {obj} Validation error messages or content of req.body
+   * @returns {obj} Validation error messages or contents of req.body
    */
   static async userInput(req, res, next) {
     const { email, password } = req.body;
+    const { id } = req.params;
+    const { role } = req.query;
     const check = checkItem({
       email,
       password,
@@ -49,7 +50,8 @@ module.exports = class userValidator {
       email,
       password: hash,
     });
-    req.newuser = newuser;
+    // eslint-disable-next-line require-atomic-updates
+    req.newuser = newUser;
     next();
   }
 
@@ -74,11 +76,13 @@ module.exports = class userValidator {
           returnUser.password
         );
         if (returnUser && checkPassword) {
+          // eslint-disable-next-line require-atomic-updates
           req.checked = returnUser;
           next();
         }
       }
-      return requestHandler.error(res, 400, "Wrong credentials");
+
+      return requestHandler.error(res, 400, "wrong credentials");
     } catch (err) {
       return err;
     }
@@ -96,18 +100,6 @@ module.exports = class userValidator {
       if (Object.keys(check).length > 0) {
         return requestHandler.error(res, 400, check);
       }
-      if (id) {
-        next();
-      }
-      const checkUser = await userModel.getUserBy({ email });
-      if (!checkUser || Object.keys(checkUser).length === 0) {
-        return requestHandler.error(
-          res,
-          401,
-          "This email is either incorrect or not registered"
-        );
-      }
-      req.checked = { email: checkUser.email, id: checkUser.id };
       next();
     } catch (error) {
       return error;

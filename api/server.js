@@ -32,12 +32,12 @@ server.use((err, req, res, next) => {
   next();
 });
 
-server.use("api", routes);
+server.use("/api", routes);
 
 server.get("/", (req, res) => {
   res.status(200).json({
     status: 200,
-    message: "Hello from Shefa Luxe",
+    message: "Hello from Shefa Luxe backend!",
   });
 });
 

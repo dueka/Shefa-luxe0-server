@@ -62,7 +62,7 @@ const passwordReset = async (req, res) => {
   }
 };
 
-const newPassword = async (res, res) => {
+const newPassword = async (req, res) => {
   try {
     const id = await req.token;
     if (id) {
@@ -78,14 +78,14 @@ const newPassword = async (res, res) => {
         return Mailer.resetPassword(
           res,
           200,
-          "Your password has been updated successfully",
+          "Your Password Has Been Updated Successfully",
           foundUser.email
         );
       }
     }
     return requestHandler.error(res, 400, `reset password token not available`);
   } catch (err) {
-    return requestHandler.error(res, 500, `Server error ${err}`);
+    return requestHandler.error(res, 500, `server error ${err}`);
   }
 };
 

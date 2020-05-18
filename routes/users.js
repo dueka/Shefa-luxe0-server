@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 const { Router } = require("express");
 const authenticate = require("../api/auth/authenticate");
 const {
